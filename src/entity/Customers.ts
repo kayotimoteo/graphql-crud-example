@@ -29,24 +29,12 @@ export default class Customers extends BaseEntity {
   contactName: string;
 
   @Field({ nullable: true })
-  @Column({
-    name: 'contact_title',
-    nullable: true,
-    length: 30,
-  })
-  contactTitle: string;
-
-  @Field({ nullable: true })
   @Column({ name: 'address', nullable: true, length: 60 })
   address: string;
 
   @Field({ nullable: true })
   @Column({ name: 'city', nullable: true, length: 15 })
   city: string;
-
-  @Field({ nullable: true })
-  @Column({ name: 'region', nullable: true, length: 15 })
-  region: string;
 
   @Field({ nullable: true })
   @Column({
@@ -57,18 +45,10 @@ export default class Customers extends BaseEntity {
   postalCode: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'country', nullable: true, length: 15 })
-  country: string;
-
-  @Field({ nullable: true })
   @Column({ name: 'phone', nullable: true, length: 24 })
   phone: string;
 
-  @Field({ nullable: true })
-  @Column({ name: 'fax', nullable: true, length: 24 })
-  fax: string;
-
   @Field(() => Orders)
-  @OneToMany(() => Orders, (orders) => orders.customer, { eager: true })
+  @OneToMany(() => Orders, orders => orders.customer, { eager: true })
   orders: Orders[];
 }

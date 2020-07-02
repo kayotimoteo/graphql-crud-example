@@ -1,45 +1,27 @@
 import { Query, Resolver, Mutation, Arg, InputType, Field } from 'type-graphql';
+import { ApolloError } from 'apollo-server-express';
 
 import Customers from '../entity/Customers';
-import { ApolloError } from 'apollo-server-express';
 
 @InputType()
 class ConsumerInput {
-  @Field(()=> String)
-  categoryName: string;
-
-  @Field(()=> String)
-  description: string;
-
-  @Field(()=> String)
+  @Field(() => String)
   companyName: string;
 
-  @Field(()=> String)
+  @Field(() => String)
   contactName: string;
 
-  @Field(()=> String)
-  contactTitle: string;
-
-  @Field(()=> String)
+  @Field(() => String)
   address: string;
 
-  @Field(()=> String)
+  @Field(() => String)
   city: string;
 
-  @Field(()=> String)
-  region: string;
-
-  @Field(()=> String)
+  @Field(() => String)
   postalCode: string;
 
-  @Field(()=> String)
-  country: string;
-
-  @Field(()=> String)
+  @Field(() => String)
   phone: string;
-
-  @Field(()=> String)
-  fax: string;
 }
 
 @Resolver()
@@ -49,18 +31,25 @@ export default class CustomersResolver {
     return Customers.find();
   }
 
-  @Mutation(()=> Customers)
-  async AddConsumer(
-    @Arg("input", ()=> ConsumerInput) input : ConsumerInput,
-  ){
-    const consumerExisting = await Customers.findOne({where: {
-      companyName: input.companyName
-    }})
+  @Query(() => Customers, { nullable: true })
+  Customer(@Arg('customerId', () => String) customerId: string) {
+    return Customers.findOne(customerId);
+  }
 
-    if(consumerExisting){
-      return new ApolloError('The Consumer already exists!', '400');
+  @Mutation(() => Customers)
+  async createConsumer(
+    @Arg('input', () => ConsumerInput) input: ConsumerInput,
+  ) {
+    const consumerExisting = await Customers.findOne({
+      where: {
+        companyName: input.companyName,
+      },
+    });
+
+    if (consumerExisting) {
+      return new ApolloError('The consumer already exists!', '400');
     }
-    
-    return await Customers.create(input).save();
+
+    return Customers.create(input).save();
   }
 }

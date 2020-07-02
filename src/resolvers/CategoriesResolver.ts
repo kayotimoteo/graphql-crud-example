@@ -1,14 +1,14 @@
 import { Query, Resolver, Mutation, Arg, InputType, Field } from 'type-graphql';
-import { ApolloError } from 'apollo-server-express'
+import { ApolloError } from 'apollo-server-express';
 
 import Categories from '../entity/Categories';
 
 @InputType()
-class CategoriesInput{
-  @Field(()=> String)
+class CategoriesInput {
+  @Field(() => String)
   categoryName: string;
 
-  @Field(()=> String)
+  @Field(() => String)
   description: string;
 }
 
@@ -16,25 +16,31 @@ class CategoriesInput{
 export default class CategoriesResolver {
   @Query(() => [Categories])
   async Categories() {
-    return await Categories.find();
+    return Categories.find();
   }
 
-  @Mutation(()=> Categories)
-  async AddCategory(
-    @Arg("input", ()=> CategoriesInput) input: CategoriesInput,
-  ){
-    const categoryExisting = await Categories.findOne({where: {
-      categoryName: input.categoryName
-    }})
+  @Query(() => Categories, { nullable: true })
+  async Category(@Arg('categoryId', () => String) categoryId: string) {
+    return Categories.findOne(categoryId);
+  }
 
-    if(categoryExisting){
-      return new ApolloError('The Category already exists!', '400');
+  @Mutation(() => Categories)
+  async createCategory(
+    @Arg('input', () => CategoriesInput) input: CategoriesInput,
+  ) {
+    const categoryExisting = await Categories.findOne({
+      where: {
+        categoryName: input.categoryName,
+      },
+    });
+
+    if (categoryExisting) {
+      return new ApolloError('The category already exists!', '400');
     }
-    
-    return await Categories.create(
-      {
-        categoryName: input.categoryName, 
-        description: input.description
-      }).save();
+
+    return Categories.create({
+      categoryName: input.categoryName,
+      description: input.description,
+    }).save();
   }
 }

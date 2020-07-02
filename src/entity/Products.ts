@@ -44,10 +44,6 @@ class Products extends BaseEntity {
   @Column('smallint', { name: 'units_on_order', nullable: true })
   unitsOnOrder: number;
 
-  @Field({ nullable: true })
-  @Column('smallint', { name: 'reorder_level', nullable: true })
-  reorderLevel: number;
-
   @Field()
   @Column('integer', { name: 'discontinued' })
   discontinued: number;

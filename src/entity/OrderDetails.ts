@@ -1,26 +1,19 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  BaseEntity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, BaseEntity } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 
 import Orders from './Orders';
 import Products from './Products';
 
-@ObjectType({ description:"Detalhes do pedido" })
+@ObjectType({ description: 'Detalhes do pedido' })
 @Entity('order_details', { schema: 'public' })
 export default class OrderDetails extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn("uuid", { name: 'order_id' })
+  @Column('uuid', { name: 'order_id' })
   orderId: string;
 
   @Field()
-  @Column('smallint', { primary: true, name: 'product_id' })
-  productId: number;
+  @Column('uuid', { primary: true, name: 'product_id' })
+  productId: string;
 
   @Field()
   @Column('real', { name: 'unit_price', precision: 24 })

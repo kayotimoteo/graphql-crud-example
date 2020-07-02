@@ -1,17 +1,23 @@
-import { Column, Entity, OneToMany, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 
 import Products from './Products';
 
-@ObjectType({ description:"Categorias" } )
+@ObjectType({ description: 'Categorias' })
 @Entity('categories', { schema: 'public' })
 export default class Categories extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn("uuid", { name: 'category_id' })
+  @PrimaryGeneratedColumn('uuid', { name: 'category_id' })
   categoryId: string;
 
   @Field()
-  @Column( { name: 'category_name', length: 15 })
+  @Column({ name: 'category_name', length: 15 })
   categoryName: string;
 
   @Field({ nullable: true, description: 'Descrição do Produto' })
