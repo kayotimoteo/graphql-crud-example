@@ -1,8 +1,10 @@
 import 'reflect-metadata';
 import { createConnection, getConnectionOptions } from 'typeorm';
 import express from 'express';
+
 import { ApolloServer } from 'apollo-server-express';
 import { altairExpress } from 'altair-express-middleware';
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 
 import createSchema from './utils/createSchema';
 
@@ -28,6 +30,8 @@ import createSchema from './utils/createSchema';
       endpointURL: '/graphql',
     }),
   );
+
+  app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
 
   apolloServer.applyMiddleware({ app, cors: false });
   const port = process.env.PORT || 4000;
