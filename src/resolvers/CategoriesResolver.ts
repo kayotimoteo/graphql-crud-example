@@ -38,9 +38,6 @@ export default class CategoriesResolver {
       return new ApolloError('The category already exists!', '400');
     }
 
-    return Categories.create({
-      categoryName: input.categoryName,
-      description: input.description,
-    }).save();
+    return Categories.create(input).save();
   }
 }

@@ -1,8 +1,6 @@
 import {
   Column,
   Entity,
-  JoinColumn,
-  ManyToOne,
   OneToMany,
   BaseEntity,
   PrimaryGeneratedColumn,
@@ -49,13 +47,6 @@ export default class Employees extends BaseEntity {
     length: 24,
   })
   phone: string;
-
-  @ManyToOne(() => Employees, employees => employees.employees, { lazy: true })
-  @JoinColumn([{ name: 'reports_to', referencedColumnName: 'employeeId' }])
-  reportsTo: Employees;
-
-  @OneToMany(() => Employees, employees => employees.reportsTo, { lazy: true })
-  employees: Employees[];
 
   @Field(() => Orders)
   @OneToMany(() => Orders, orders => orders.employee, { eager: true })

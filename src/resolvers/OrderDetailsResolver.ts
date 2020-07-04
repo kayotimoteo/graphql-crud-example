@@ -12,13 +12,13 @@ class OrderDetailsInput {
   @Field(() => String)
   productId: string;
 
-  @Field()
+  @Field(() => Number)
   unitPrice: number;
 
-  @Field()
+  @Field(() => Number)
   quantity: number;
 
-  @Field()
+  @Field(() => Number)
   discount: number;
 }
 
@@ -32,6 +32,16 @@ export default class OrderDetailsResolver {
   @Query(() => [OrderDetails], { nullable: true })
   OrderDetails(@Arg('orderId', () => String) orderId: string) {
     return OrderDetails.find({ where: { orderId } });
+  }
+
+  @Mutation(() => Boolean)
+  async removeOrderDetails(@Arg('orderId', () => String) orderId: string) {
+    try {
+      await OrderDetails.delete(orderId);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   @Mutation(() => OrderDetails)

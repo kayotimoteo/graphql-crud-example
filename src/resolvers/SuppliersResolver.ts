@@ -31,7 +31,7 @@ export default class SuppliersResolver {
     return Suppliers.find();
   }
 
-  @Query(() => Suppliers, { nullable: true })
+  @Query(() => Suppliers)
   Supplier(@Arg('supplierId', () => String) supplierId: string) {
     return Suppliers.findOne(supplierId);
   }

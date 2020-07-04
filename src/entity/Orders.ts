@@ -28,20 +28,20 @@ export default class Orders extends BaseEntity {
   @Column('date', { name: 'required_date', nullable: true })
   requiredDate: string;
 
-  @Field({ nullable: true })
-  @Column('date', { name: 'shipped_date', nullable: true })
-  shippedDate: string;
-
   @Field(() => OrderDetails)
   @OneToMany(() => OrderDetails, orderDetails => orderDetails.order, {
     eager: true,
   })
   orderDetails: OrderDetails[];
 
+  customer_id: string;
+
   @Field(() => Customers)
   @ManyToOne(() => Customers, customers => customers.orders, { lazy: true })
   @JoinColumn([{ name: 'customer_id', referencedColumnName: 'customerId' }])
   customer: Customers;
+
+  employee_id: string;
 
   @Field(() => Employees)
   @ManyToOne(() => Employees, employees => employees.orders, { lazy: true })

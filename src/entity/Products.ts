@@ -45,8 +45,8 @@ class Products extends BaseEntity {
   unitsOnOrder: number;
 
   @Field()
-  @Column('integer', { name: 'discontinued' })
-  discontinued: number;
+  @Column('boolean', { name: 'discontinued' })
+  discontinued: boolean;
 
   @Field(() => OrderDetails)
   @OneToMany(() => OrderDetails, orderDetails => orderDetails.product, {
@@ -55,7 +55,7 @@ class Products extends BaseEntity {
   orderDetails: OrderDetails[];
 
   @Column()
-  category_id: number;
+  category_id: string;
 
   @ManyToOne(() => Categories, categories => categories.products, {
     lazy: true,
@@ -64,6 +64,10 @@ class Products extends BaseEntity {
   @Field(() => Categories)
   category: Categories;
 
+  @Column()
+  supplier_id: string;
+
+  @Field(() => Suppliers)
   @ManyToOne(() => Suppliers, suppliers => suppliers.products, { lazy: true })
   @JoinColumn([{ name: 'supplier_id', referencedColumnName: 'supplierId' }])
   supplier: Suppliers;

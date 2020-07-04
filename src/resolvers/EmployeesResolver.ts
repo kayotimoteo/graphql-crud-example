@@ -6,9 +6,6 @@ import Employees from '../entity/Employees';
 @InputType()
 class EmployessInput {
   @Field(() => String)
-  employeeId: string;
-
-  @Field(() => String)
   name: string;
 
   @Field(() => String)
@@ -34,9 +31,9 @@ export default class EmployeesResolver {
     return Employees.find();
   }
 
-  @Query(() => Employees, { nullable: true })
-  Employee(@Arg('order_id', () => String) order_id: string) {
-    return Employees.findOne(order_id);
+  @Query(() => Employees)
+  Employee(@Arg('employeeId', () => String) employeeId: string) {
+    return Employees.findOne(employeeId);
   }
 
   @Mutation(() => Employees)

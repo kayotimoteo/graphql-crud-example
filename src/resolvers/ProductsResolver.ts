@@ -1,21 +1,10 @@
-import {
-  Query,
-  Resolver,
-  Arg,
-  Int,
-  Field,
-  InputType,
-  Mutation,
-} from 'type-graphql';
+import { Query, Resolver, Arg, Field, InputType, Mutation } from 'type-graphql';
 import { ApolloError } from 'apollo-server-express';
 
 import Products from '../entity/Products';
 
 @InputType()
 class ProductInput {
-  @Field(() => String)
-  productId: string;
-
   @Field(() => String)
   productName: string;
 
@@ -30,6 +19,15 @@ class ProductInput {
 
   @Field(() => Number)
   unitsOnOrder: number;
+
+  @Field()
+  discontinued: boolean;
+
+  @Field(() => String)
+  category_id: string;
+
+  @Field(() => String)
+  supplier_id: string;
 }
 
 @Resolver()
@@ -40,7 +38,7 @@ export default class ProductResolver {
   }
 
   @Query(() => Products, { nullable: true })
-  Product(@Arg('productId', () => Int) productId: number) {
+  Product(@Arg('productId', () => String) productId: string) {
     return Products.findOne(productId);
   }
 
@@ -52,7 +50,7 @@ export default class ProductResolver {
       },
     });
 
-    if (!productExisting) {
+    if (productExisting) {
       return new ApolloError('The product already exists!', '400');
     }
 
