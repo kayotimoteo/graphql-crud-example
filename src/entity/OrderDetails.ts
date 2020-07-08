@@ -5,7 +5,7 @@ import Orders from './Orders';
 import Products from './Products';
 
 @ObjectType({ description: 'Detalhes do pedido' })
-@Entity('order_details', { schema: 'public' })
+@Entity('order_details')
 export default class OrderDetails extends BaseEntity {
   @Field()
   @Column('uuid', { name: 'order_id' })

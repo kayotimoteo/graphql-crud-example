@@ -14,7 +14,7 @@ import Categories from './Categories';
 import Suppliers from './Suppliers';
 
 @ObjectType()
-@Entity('products', { schema: 'public' })
+@Entity('products')
 class Products extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid', { name: 'product_id' })
@@ -57,11 +57,11 @@ class Products extends BaseEntity {
   @Column()
   category_id: string;
 
+  @Field(() => Categories)
   @ManyToOne(() => Categories, categories => categories.products, {
     lazy: true,
   })
-  @JoinColumn({ name: 'category_id' })
-  @Field(() => Categories)
+  @JoinColumn([{ name: 'category_id', referencedColumnName: 'categoryId' }])
   category: Categories;
 
   @Column()

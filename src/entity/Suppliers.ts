@@ -10,7 +10,7 @@ import { Field, ObjectType } from 'type-graphql';
 import Products from './Products';
 
 @ObjectType()
-@Entity('suppliers', { schema: 'public' })
+@Entity('suppliers')
 export default class Suppliers extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid', { name: 'supplier_id' })

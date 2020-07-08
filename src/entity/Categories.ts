@@ -10,7 +10,7 @@ import { Field, ObjectType } from 'type-graphql';
 import Products from './Products';
 
 @ObjectType({ description: 'Categorias' })
-@Entity('categories', { schema: 'public' })
+@Entity('categories')
 export default class Categories extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid', { name: 'category_id' })

@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import 'dotenv/config';
+
 import { createConnection, getConnectionOptions } from 'typeorm';
 import express from 'express';
 
@@ -20,6 +22,8 @@ import createSchema from './utils/createSchema';
 
   const apolloServer = new ApolloServer({
     schema,
+    introspection: true,
+    playground: true,
     context: ({ req, res }) => ({ req, res }),
     tracing: true,
   });

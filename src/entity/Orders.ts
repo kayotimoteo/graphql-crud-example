@@ -14,7 +14,7 @@ import Customers from './Customers';
 import Employees from './Employees';
 
 @ObjectType()
-@Entity('orders', { schema: 'public' })
+@Entity('orders')
 export default class Orders extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid', { name: 'order_id' })
