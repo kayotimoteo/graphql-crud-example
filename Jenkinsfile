@@ -23,7 +23,7 @@ podTemplate(
     def HELM_DEPLOY_NAME
     def CHARTMUSEUM_URL = "http://192.168.15.2:30010"
     def INGRESS_HOST = "tftsolutions.com.br"
-    def INGRESS_PATHS = "/"
+    def INGRESS_PATHS = "/api/graphql"
     node(LABEL_ID) {
         stage('Checkout') {
             echo 'Iniciando Clone do Repositorio'
