@@ -58,7 +58,7 @@ podTemplate(
         stage('Package Chart') {
             container('helm-container'){
                 echo 'Iniciando Package do Chart'
-                sh label: '', script: "helm plugin install devops/helm-push"
+                sh label: '', script: "helm plugin install https://github.com/chartmuseum/helm-push.git"
                 sh label: '', script: "helm repo add tftsolutions ${CHARTMUSEUM_URL}"
                 sh label: '', script: "helm push devops/ tftsolutions"
                 sh label: '', script: "helm repo update"
