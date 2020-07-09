@@ -29,15 +29,18 @@ import createSchema from './utils/createSchema';
   });
 
   app.use(
-    '/altair',
+    '/api/graphql/altair',
     altairExpress({
-      endpointURL: '/graphql',
+      endpointURL: '/api/graphql/graphql',
     }),
   );
 
-  app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
+  app.use(
+    '/api/graphql/voyager',
+    voyagerMiddleware({ endpointUrl: '/api/graphql/graphql' }),
+  );
 
-  apolloServer.applyMiddleware({ app, cors: false });
+  apolloServer.applyMiddleware({ path: '/api/graphql/', app, cors: false });
   const port = process.env.PORT || 4000;
   app.listen(port, () => {
     console.log(`server started at http://localhost:${port}/graphql`);
