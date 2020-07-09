@@ -38,7 +38,7 @@ import createSchema from './utils/createSchema';
   app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }));
 
   apolloServer.applyMiddleware({ app, cors: false });
-  const port = process.env.PORT || 80;
+  const port = process.env.PORT || 4000;
   app.listen(port, () => {
     console.log(`server started at http://localhost:${port}/graphql`);
   });
