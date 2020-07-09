@@ -43,14 +43,14 @@ spec:
               configMapKeyRef:
                 name: 010graphql
                 key: NPM_ENV
-          livenessProbe:
-            httpGet:
-              path: /api/graphql/
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /api/graphql/
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/graphql/
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/graphql/
+          #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
