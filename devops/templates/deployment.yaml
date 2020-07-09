@@ -38,11 +38,11 @@ spec:
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
           env:
-          - name: NODE_ENV
+          - name: NPM_ENV
             valueFrom:
               configMapKeyRef:
                 name: 010graphql
-                key: NODE_ENV
+                key: NPM_ENV
           livenessProbe:
             httpGet:
               path: /
