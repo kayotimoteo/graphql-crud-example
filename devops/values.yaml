@@ -1,4 +1,4 @@
-# Default values for tft-webpage.
+# Default values for 010graphql.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: repo.tftsolutions.com.br/docker/010graphql
   pullPolicy: Always
-  # Overrides the image tag whose default is the chart version.
+  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
 imagePullSecrets: []
@@ -40,7 +40,6 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 4000
-
 
 ingress:
   enabled: true

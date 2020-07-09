@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "tft-webpage.fullname" . }}-test-connection"
+  name: "{{ include "010graphql.fullname" . }}-test-connection"
   labels:
-    {{- include "tft-webpage.labels" . | nindent 4 }}
+    {{- include "010graphql.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "tft-webpage.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "010graphql.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
