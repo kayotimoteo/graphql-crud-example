@@ -16,6 +16,6 @@ RUN yarn build
 
 ENV NODE_ENV staging
 
-EXPOSE 4000
+EXPOSE 80
 
 CMD ["node", "dist/index.js"]
