@@ -6,7 +6,7 @@ podTemplate(
     label: LABEL_ID,
     containers: [
             containerTemplate(args: 'cat', command: '/bin/sh -c', image: 'docker', livenessProbe: containerLivenessProbe(execArgs: '', failureThreshold: 0, initialDelaySeconds: 0, periodSeconds: 0, successThreshold: 0, timeoutSeconds: 0), name: 'docker-container', resourceLimitCpu: '', resourceLimitMemory: '', resourceRequestCpu: '', resourceRequestMemory: '', ttyEnabled: true, workingDir: '/home/jenkins/agent'),
-            containerTemplate(args: 'cat', command: '/bin/sh -c', image: 'lachlanevenson/k8s-helm:latest', name: 'helm-container', ttyEnabled: true)
+            containerTemplate(args: 'cat', command: '/bin/sh -c', image: 'lachlanevenson/k8s-helm:v3.2.4', name: 'helm-container', ttyEnabled: true)
             ],
     volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')],
 )
@@ -55,17 +55,6 @@ podTemplate(
                 }
             }
         }
-        stage('Package Chart') {
-            container('helm-container'){
-                echo 'Iniciando Package do Chart'
-                sh label: '', script: "helm plugin install https://github.com/chartmuseum/helm-push.git"
-                sh label: '', script: "helm repo add tftsolutions ${CHARTMUSEUM_URL}"
-                sh label: '', script: "helm push devops/ tftsolutions"
-                sh label: '', script: "helm repo update"
-                sh label: '', script: "helm search repo tftsolutions/"
-                sh label: '', script: "helm ls -n prod"
-            }
-        }
         stage('Deploy') {
             container('helm-container'){
                 echo 'Iniciando Deploy com Helm'
@@ -74,9 +63,10 @@ podTemplate(
                 sh label: '', script: "helm search repo tftsolutions/"
                 sh label: '', script: "helm ls -n prod"
                 try{
-                    sh label: '', script: "helm upgrade ${HELM_DEPLOY_NAME} ${HELM_CHART_NAME} --set image.tag=${IMAGE_VERSION} --set ingress.hosts[0].host=${INGRESS_HOST} --set ingress.hosts[0].paths[0]=${INGRESS_PATHS} -n ${KUBE_NAMESPACE}"
+                    sh label: '', script: "helm upgrade ${HELM_DEPLOY_NAME} devops/ --set image.tag=${IMAGE_VERSION} --set ingress.hosts[0].host=${INGRESS_HOST} --set ingress.hosts[0].paths[0]=${INGRESS_PATHS} -n ${KUBE_NAMESPACE}"
                 }catch(Exception e){
-                    sh label: '', script: "helm install ${HELM_DEPLOY_NAME} ${HELM_CHART_NAME} --set image.tag=${IMAGE_VERSION} --set ingress.hosts[0].host=${INGRESS_HOST} --set ingress.hosts[0].paths[0]=${INGRESS_PATHS} -n ${KUBE_NAMESPACE}"
+                    sh label: '', script: "helm install ${HELM_DEPLOY_NAME} devops/ --set image.tag=${IMAGE_VERSION} --set ingress.hosts[0].host=${INGRESS_HOST} --set ingress.hosts[0].paths[0]=${INGRESS_PATHS} -n ${KUBE_NAMESPACE}"
+                    // sh label: '', script: "helm install ${HELM_DEPLOY_NAME} ${HELM_CHART_NAME} --set image.tag=${IMAGE_VERSION} --set ingress.hosts[0].host=${INGRESS_HOST} --set ingress.hosts[0].paths[0]=${INGRESS_PATHS} -n ${KUBE_NAMESPACE}"
                 }
             }
         }
