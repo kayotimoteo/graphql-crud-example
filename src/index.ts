@@ -14,7 +14,7 @@ import createSchema from './utils/createSchema';
   const app = express();
 
   const options = await getConnectionOptions(
-    process.env.NODE_ENV || 'development',
+    process.env.NPM_ENV || 'development',
   );
   await createConnection({ ...options, name: 'default' });
 

@@ -14,7 +14,7 @@ COPY --chown=node:node . /usr/src/app
 
 RUN yarn build
 
-ENV NODE_ENV staging
+ARG NPM_ENV=staging
 
 EXPOSE 80
 
